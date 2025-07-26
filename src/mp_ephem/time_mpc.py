@@ -110,7 +110,7 @@ class TimeMPC(TimeString):
         """
         scale = self.scale.upper().encode('ascii'),
         iys, ims, ids, ihmsfs = d2dtf(scale, self.precision,
-                                      self.jd1, self.jd2_filled)
+                                      self.jd1, self.jd2)
 
         # Get the str_fmt element of the first allowed output subformat
         _, _, str_fmt = self._select_subfmts(self.out_subfmt)[0]
