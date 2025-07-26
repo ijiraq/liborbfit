@@ -144,3 +144,19 @@ class OrbitFit(unittest.TestCase):
         orbit = mp_ephem.BKOrbit(None, ast_filename=os.path.join(__PATH__,'data/o4h29.ast'))
         for observation in orbit.observations:
             self.assertTrue(observation.discovery)
+
+class CLASSYFORM(unittest.TestCase):
+
+    def setUp(self):
+        self.mpc_filename = os.path.join(__PATH__, 'data/classy.mpc')
+
+    def test_parser(self):
+        obs = mp_ephem.EphemerisReader().read(self.mpc_filename)
+        self.assertIsInstance(obs[0], mp_ephem.Observation)
+        self.assertIsInstance(obs[0].comment, mp_ephem.OSSOSComment)
+        self.assertAlmostEqual(obs[0].comment.likelihood, 12)
+
+    def test_fitradec(self):
+        orbit = mp_ephem.BKOrbit(None, self.mpc_filename)
+        orbit.predict(orbit.observations[0].date)
+        self.assertAlmostEqual(orbit.a.to('au').value, 44.48, 2)  # Example value, adjust as needed
